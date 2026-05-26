@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!--
+    =====================================================
+    CONFIANÇA CORRETORA DE SEGUROS — Site Institucional
+    =====================================================
+    IMPORTANTE SOBRE O LOGO:
+    O arquivo "logo.jpg" deve estar na mesma pasta que este
+    index.html. O logo tem fundo branco, então:
+      - Navbar (fundo branco): exibe normalmente
+      - Hero (fundo vermelho): mix-blend-mode: multiply
+        faz o branco "sumir" e o logo fica sobre o vermelho
+      - Footer (fundo escuro): logo dentro de caixa branca
+    =====================================================
+  -->
+
+  <title>Confiança Corretora de Seguros</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =====================================================
+       RESET E VARIÁVEIS GLOBAIS
+    ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --vermelho:        #c0181e;
+      --vermelho-escuro: #8b0f13;
+      --branco:          #ffffff;
+      --cinza-claro:     #f6f6f8;
+      --cinza-borda:     #e4e4e8;
+      --cinza-texto:     #5a5a6a;
+      --escuro:          #17171f;
+      --raio:            12px;
+      --transicao:       .24s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Barlow', sans-serif;
+      color: var(--escuro);
+      background: var(--branco);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ─── Container centralizado padrão ─── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+    .section { padding: 80px 0; }
+
+    /* ─── Títulos de seção reutilizáveis ─── */
+    .eyebrow {
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--vermelho); margin-bottom: 10px;
+    }
+    .titulo-secao {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 900; line-height: 1.04;
+      color: var(--escuro); margin-bottom: 14px;
+    }
+    .desc-secao {
+      font-size: 15.5px; color: var(--cinza-texto);
+      max-width: 500px; line-height: 1.65;
+    }
+    .cabecalho-secao { margin-bottom: 52px; }
+
+    /* =====================================================
+       TOPBAR — Barra de contatos no topo
+       Oculta em mobile (<768px)
+    ===================================================== */
+    .topbar {
+      background: var(--vermelho-escuro);
+      color: rgba(255,255,255,.85);
+      font-size: 12.5px; font-weight: 500;
+      padding: 7px 0;
+    }
+    .topbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .topbar-grupo { display: flex; align-items: center; gap: 22px; }
+    .topbar-item {
+      display: flex; align-items: center; gap: 7px;
+      transition: color var(--transicao); cursor: default;
+    }
+    .topbar-item:hover { color: #fff; }
+    .topbar-item svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* =====================================================
+       NAVBAR — Menu principal (sticky)
+       JS adiciona .scrolled para aumentar sombra ao rolar
+    ===================================================== */
+    .navbar {
+      background: var(--branco);
+      position: sticky; top: 0; z-index: 200;
+      border-bottom: 1px solid var(--cinza-borda);
+      transition: box-shadow var(--transicao);
+    }
+    .navbar.scrolled {
+      box-shadow: 0 4px 24px rgba(0,0,0,.11);
+      border-bottom-color: transparent;
+    }
+    .navbar .container {
+      display: flex; align-items: center;
+      height: 72px; gap: 8px;
+    }
+
+    /* ─── Logo na navbar ─── */
+    /*
+      O logo JPG inclui ícone + nome + subtítulo.
+      Usamos height fixa + width: auto para preservar proporção.
+      margin-right: auto empurra o menu para a direita.
+    */
+    .navbar-logo {
+      display: block;
+      height: 54px;         /* altura da logo na navbar */
+      width: auto;
+      flex-shrink: 0;
+      margin-right: auto;
+      /* Sem mix-blend-mode aqui: fundo do navbar é branco,
+         igual ao fundo do logo — encaixa perfeitamente */
+    }
+
+    /* ─── Links de navegação ─── */
+    .nav-menu {
+      display: flex; align-items: center;
+      gap: 2px; list-style: none;
+    }
+    .nav-menu a {
+      display: flex; align-items: center; gap: 4px;
+      text-decoration: none;
+      color: var(--escuro);
+      font-weight: 600; font-size: 14px;
+      padding: 8px 13px; border-radius: 8px;
+      transition: color var(--transicao), background var(--transicao);
+      white-space: nowrap;
+    }
+    .nav-menu a:hover { color: var(--vermelho); background: #fef2f2; }
+
+    /* Botão Cotação Online (preenchido) */
+    .btn-nav-red {
+      background: var(--vermelho) !important;
+      color: #fff !important;
+      padding: 9px 18px !important;
+      border-radius: 8px !important;
+      font-weight: 700 !important;
+      box-shadow: 0 2px 10px rgba(192,24,30,.28);
+      transition: background var(--transicao), transform var(--transicao) !important;
+    }
+    .btn-nav-red:hover {
+      background: var(--vermelho-escuro) !important;
+      transform: translateY(-1px);
+    }
+
+    /* Botão Área do Cliente (contorno) */
+    .btn-nav-outline {
+      border: 2px solid var(--cinza-borda) !important;
+      border-radius: 8px !important;
+      padding: 8px 16px !important;
+      font-weight: 700 !important;
+      color: var(--escuro) !important;
+      transition: border-color var(--transicao), color var(--transicao) !important;
+    }
+    .btn-nav-outline:hover {
+      border-color: var(--vermelho) !important;
+      color: var(--vermelho) !important;
+      background: transparent !important;
+    }
+
+    /* ─── Hamburger mobile ─── */
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: 6px; margin-left: 8px;
+    }
+    .nav-toggle span {
+      display: block; width: 24px; height: 2.5px;
+      background: var(--escuro); border-radius: 2px;
+      transition: transform var(--transicao), opacity var(--transicao);
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    /* =====================================================
+       HERO — Seção de destaque
+       Gradiente vermelho com o logo real à esquerda.
+
+       TRUQUE DO MIX-BLEND-MODE:
+       O logo tem fundo branco. mix-blend-mode: multiply
+       faz: cor_logo × cor_fundo / 255
+       Branco (255) × qualquer_cor = aquela_cor
+       Resultado: o fundo branco do logo "vira" vermelho,
+       ficando invisível — o logo parece ter fundo transparente.
+    ===================================================== */
+    .hero {
+      background:
+        radial-gradient(circle at 15% 85%, rgba(255,255,255,.06) 0%, transparent 45%),
+        radial-gradient(circle at 85% 15%, rgba(255,255,255,.07) 0%, transparent 45%),
+        linear-gradient(135deg, var(--vermelho-escuro) 0%, var(--vermelho) 60%, #d62b2b 100%);
+      position: relative; overflow: hidden;
+      min-height: 500px; display: flex; align-items: center;
+    }
+    /* Círculo decorativo no canto inferior direito */
+    .hero::after {
+      content: ''; position: absolute;
+      right: -100px; bottom: -100px;
+      width: 520px; height: 520px;
+      background: rgba(255,255,255,.04);
+      border-radius: 50%; pointer-events: none;
+    }
+    .hero .container {
+      display: flex; align-items: center; gap: 56px;
+      padding-top: 64px; padding-bottom: 64px;
+      position: relative; z-index: 1; width: 100%;
+    }
+
+    /* ─── Lado esquerdo: logo grande ─── */
+    .hero-logo-wrap {
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      /* Linha divisória entre logo e texto */
+      border-right: 1.5px solid rgba(255,255,255,.22);
+      padding-right: 56px;
+    }
+    .hero-logo-img {
+      /*
+        Tamanho do logo no hero.
+        clamp(180px, 22vw, 280px) = escala com a tela,
+        entre 180px (mobile) e 280px (desktop grande).
+      */
+      width: clamp(180px, 22vw, 280px);
+      height: auto;
+      /*
+        mix-blend-mode: multiply — faz o fundo branco do logo
+        "desaparecer" sobre o fundo vermelho do hero.
+        NÃO use em fundos brancos ou claros (vai escurecer).
+      */
+      mix-blend-mode: multiply;
+      /* Leve brilho para compensar o escurecimento do multiply */
+      filter: brightness(1.08) contrast(1.05);
+    }
+
+    /* ─── Lado direito: texto e botões ─── */
+    .hero-content { color: #fff; }
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 800;
+      letter-spacing: 3.5px; text-transform: uppercase;
+      color: rgba(255,255,255,.62); margin-bottom: 14px;
+    }
+    .hero-h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(38px, 5.5vw, 64px);
+      font-weight: 900; line-height: 1.02; margin-bottom: 18px;
+    }
+    .hero-p {
+      font-size: 16.5px; color: rgba(255,255,255,.76);
+      max-width: 400px; margin-bottom: 36px; line-height: 1.65;
+    }
+    .hero-botoes { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* Botão branco sólido */
+    .btn-branco {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: var(--vermelho);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700; font-size: 15px;
+      padding: 13px 26px; border-radius: 10px;
+      border: none; cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      transition: transform var(--transicao), box-shadow var(--transicao);
+    }
+    .btn-branco:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(0,0,0,.28);
+    }
+
+    /* Botão contorno branco */
+    .btn-contorno {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: #fff;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700; font-size: 15px;
+      padding: 12px 24px; border-radius: 10px;
+      border: 2px solid rgba(255,255,255,.48);
+      cursor: pointer; text-decoration: none;
+      transition: border-color var(--transicao), background var(--transicao);
+    }
+    .btn-contorno:hover {
+      border-color: rgba(255,255,255,.9);
+      background: rgba(255,255,255,.1);
+    }
+
+    /* Animação de entrada do hero */
+    .hero-content > * { animation: subir .6s both; }
+    .hero-tag    { animation-delay: .1s; }
+    .hero-h1     { animation-delay: .2s; }
+    .hero-p      { animation-delay: .3s; }
+    .hero-botoes { animation-delay: .4s; }
+    @keyframes subir {
+      from { opacity: 0; transform: translateY(26px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =====================================================
+       SERVIÇOS — Grid de cards
+    ===================================================== */
+    .servicos { background: var(--cinza-claro); }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--branco); border-radius: var(--raio);
+      padding: 30px 22px 26px; text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      border: 2px solid transparent; cursor: pointer;
+      /* Estado inicial para animação de scroll */
+      opacity: 0; transform: translateY(20px);
+      transition: transform var(--transicao), box-shadow var(--transicao),
+                  border-color var(--transicao), opacity .4s ease;
+    }
+    .card.visivel { opacity: 1; transform: translateY(0); }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(192,24,30,.16);
+      border-color: var(--vermelho);
+    }
+    .card-icone {
+      width: 50px; height: 50px; color: var(--vermelho);
+      margin: 0 auto 16px;
+      transition: transform var(--transicao);
+    }
+    .card:hover .card-icone { transform: scale(1.12); }
+    .card h3 { font-weight: 700; font-size: 15px; color: var(--escuro); margin-bottom: 8px; }
+    .card p  { font-size: 13px; color: var(--cinza-texto); line-height: 1.55; }
+
+    /* =====================================================
+       STATS — Números de credibilidade
+       Fundo vermelho. Números animados via JS.
+    ===================================================== */
+    .stats {
+      background: var(--vermelho);
+      padding: 52px 0; position: relative; overflow: hidden;
+    }
+    .stats::before {
+      content: ''; position: absolute;
+      left: -80px; top: -80px; width: 360px; height: 360px;
+      background: rgba(255,255,255,.05); border-radius: 50%;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 32px; position: relative; z-index: 1;
+    }
+    .stat-item { text-align: center; color: #fff; }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(42px, 5vw, 58px);
+      font-weight: 900; line-height: 1; margin-bottom: 6px;
+    }
+    .stat-sufixo { font-size: inherit; }
+    .stat-label { font-size: 13px; font-weight: 600; color: rgba(255,255,255,.72); }
+
+    /* =====================================================
+       POR QUE ESCOLHER — Diferenciais
+    ===================================================== */
+    .por-que { background: var(--branco); }
+    .por-que-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px;
+    }
+    .por-que-item {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .por-que-item.visivel { opacity: 1; transform: translateY(0); }
+    /* Barra vermelha acima de cada item */
+    .por-que-item::before {
+      content: ''; display: block;
+      width: 36px; height: 3px;
+      background: var(--vermelho); border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    .por-que-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 60px; font-weight: 900;
+      color: #f5d5d5; line-height: 1; margin-bottom: 4px;
+    }
+    .por-que-item h4 { font-weight: 700; font-size: 17px; color: var(--escuro); margin-bottom: 10px; }
+    .por-que-item p  { font-size: 14.5px; color: var(--cinza-texto); line-height: 1.65; }
+
+    /* =====================================================
+       CTA — Chamada para ação
+    ===================================================== */
+    .cta {
+      background: linear-gradient(135deg, var(--vermelho-escuro), var(--vermelho));
+      padding: 72px 24px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta::after {
+      content: ''; position: absolute;
+      right: -60px; bottom: -60px; width: 320px; height: 320px;
+      background: rgba(255,255,255,.05); border-radius: 50%;
+    }
+    .cta h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(28px, 4vw, 44px); font-weight: 900;
+      color: #fff; margin-bottom: 14px;
+      position: relative; z-index: 1;
+    }
+    .cta p {
+      color: rgba(255,255,255,.76); font-size: 16px;
+      margin-bottom: 36px; position: relative; z-index: 1;
+    }
+    .cta .btn-branco { position: relative; z-index: 1; }
+
+    /* =====================================================
+       FOOTER — Rodapé escuro
+       Logo dentro de caixa branca arredondada, pois o fundo
+       escuro tornaria o mix-blend-mode ineficaz aqui.
+    ===================================================== */
+    footer {
+      background: #111118;
+      color: rgba(255,255,255,.58);
+      padding: 64px 0 0;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.6fr repeat(3, 1fr);
+      gap: 48px; padding-bottom: 48px;
+    }
+
+    /* Caixa branca que envolve o logo no footer */
+    .footer-logo-box {
+      display: inline-flex;
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+    }
+    .footer-logo-box img {
+      height: 52px; /* altura do logo no footer */
+      width: auto;
+    }
+
+    .footer-desc {
+      font-size: 13.5px; line-height: 1.7;
+      color: rgba(255,255,255,.45); max-width: 260px;
+    }
+    /* Redes sociais */
+    .footer-social { display: flex; gap: 10px; margin-top: 20px; }
+    .footer-social a {
+      width: 36px; height: 36px; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.14);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.5); text-decoration: none;
+      font-size: 12px; font-weight: 700;
+      transition: border-color var(--transicao), color var(--transicao), background var(--transicao);
+    }
+    .footer-social a:hover {
+      border-color: var(--vermelho); color: #fff;
+      background: rgba(192,24,30,.2);
+    }
+
+    /* Colunas de links */
+    .footer-col h5 {
+      font-weight: 700; font-size: 11.5px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: #fff; margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a {
+      color: rgba(255,255,255,.48); text-decoration: none;
+      font-size: 14px;
+      transition: color var(--transicao), padding-left var(--transicao);
+    }
+    .footer-col ul a:hover { color: #fff; padding-left: 4px; }
+
+    /* Rodapé do footer */
+    .footer-base {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 20px 0; display: flex;
+      justify-content: space-between; align-items: center;
+      font-size: 12px; color: rgba(255,255,255,.3);
+      flex-wrap: wrap; gap: 8px;
+    }
+    .footer-base a { color: rgba(255,255,255,.38); text-decoration: none; transition: color var(--transicao); }
+    .footer-base a:hover { color: rgba(255,255,255,.8); }
+
+    /* =====================================================
+       BOTÃO FLUTUANTE WHATSAPP
+    ===================================================== */
+    .wpp-float {
+      position: fixed; bottom: 28px; right: 28px; z-index: 999;
+      display: flex; align-items: center; gap: 10px;
+      background: #25d366; color: #fff;
+      font-weight: 700; font-size: 14px;
+      padding: 13px 20px; border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 6px 24px rgba(37,211,102,.4);
+      animation: pulso 2.5s ease-in-out infinite;
+      transition: transform var(--transicao), box-shadow var(--transicao);
+    }
+    .wpp-float:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 12px 32px rgba(37,211,102,.5);
+      animation: none;
+    }
+    .wpp-float svg { width: 22px; height: 22px; flex-shrink: 0; }
+    @keyframes pulso {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.05); }
+    }
+
+    /* =====================================================
+       RESPONSIVO — Mobile < 768px
+    ===================================================== */
+    @media (max-width: 768px) {
+      .topbar { display: none; }
+
+      /* Menu mobile */
+      .nav-menu {
+        display: none;
+        position: absolute; top: 72px; left: 0; right: 0;
+        background: var(--branco); flex-direction: column;
+        gap: 4px; padding: 16px;
+        box-shadow: 0 12px 32px rgba(0,0,0,.12);
+        border-bottom: 3px solid var(--vermelho);
+      }
+      .nav-menu.aberto { display: flex; }
+      .nav-menu a { padding: 12px 16px; border-radius: 8px; width: 100%; }
+      .nav-toggle { display: flex; }
+
+      /* Hero em coluna */
+      .hero .container {
+        flex-direction: column; text-align: center;
+        padding-top: 48px; padding-bottom: 48px; gap: 40px;
+      }
+      .hero-logo-wrap {
+        border-right: none;
+        border-bottom: 1.5px solid rgba(255,255,255,.2);
+        padding-right: 0; padding-bottom: 36px;
+      }
+      .hero-p { margin-left: auto; margin-right: auto; }
+      .hero-botoes { justify-content: center; }
+
+      /* Footer 2 colunas */
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      /* WhatsApp: só ícone em telas muito pequenas */
+      .wpp-float span { display: none; }
+      .wpp-float { padding: 14px; border-radius: 50%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+    TOPBAR
+  ===================================================== -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-grupo">
+        <div class="topbar-item">
+          <svg fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+          </svg>
+          Atendimento Humanizado
+        </div>
+        <div class="topbar-item">
+          <svg fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          Segurança e Confiança
+        </div>
+      </div>
+      <div class="topbar-grupo">
+        <div class="topbar-item">
+          <svg fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+          </svg>
+          (64) 9980-9208
+        </div>
+        <div class="topbar-item">
+          <svg fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+          </svg>
+          contato @confiancaseguros.com.br
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================
+    NAVBAR
+    Logo: <img> simples — fundo branco do logo = fundo branco
+    da navbar. Sem nenhum truque CSS necessário aqui.
+  ===================================================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+
+      <!--
+        Logo na navbar.
+        Se quiser trocar o arquivo, mude só o src="logo.jpg".
+        A imagem precisa estar na mesma pasta do index.html.
+      -->
+      <a href="#">
+        <img
+          src="confiança logo (1).png"
+          alt="Confiança Corretora de Seguros"
+          class="navbar-logo"
+        />
+      </a>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#servicos">Seguros ▾</a></li>
+        <li><a href="#por-que">Sobre Nós</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#">Dúvidas</a></li>
+        <li><a href="#">Contato</a></li>
+        <li>
+          <a href="#cotacao" class="btn-nav-red">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+            </svg>
+            Cotação Online
+          </a>
+        </li>
+        <li>
+          <a href="#" class="btn-nav-outline">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            Área do Cliente
+          </a>
+        </li>
+      </ul>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+    HERO
+    Logo com mix-blend-mode: multiply para eliminar o fundo
+    branco sobre o fundo vermelho. Veja o CSS .hero-logo-img.
+  ===================================================== -->
+  <section class="hero">
+    <div class="container">
+
+      <!-- Lado esquerdo: logo grande -->
+      <div class="hero-logo-wrap">
+        <!--
+          mix-blend-mode: multiply está no CSS (.hero-logo-img).
+          O truque: branco × vermelho = vermelho.
+          Então o fundo branco do JPG "vira" vermelho e some.
+          Resultado visual: logo sem fundo sobre o hero vermelho.
+        -->
+        <img
+          src="confiança logo (1).png"
+          alt="Confiança Corretora de Seguros"
+          class="hero-logo-img"
+        />
+      </div>
+
+      <!-- Lado direito: texto e botões -->
+      <div class="hero-content">
+        <span class="hero-tag">Protegemos o que importa</span>
+        <h1 class="hero-h1">Segurança para<br>você viver tranquilo.</h1>
+        <p class="hero-p">
+          Soluções em seguros personalizadas para você,
+          sua família e seu patrimônio.
+        </p>
+        <div class="hero-botoes">
+          <a href="#cotacao" class="btn-branco">
+            Fazer Cotação &nbsp;→
+          </a>
+          <a href="https://wa.me/5599809208" class="btn-contorno" target="_blank" rel="noopener">
+            <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.118 1.522 5.852L.057 23.75a.75.75 0 00.914.914l5.898-1.465A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.705 9.705 0 01-4.937-1.344l-.354-.211-3.664.911.926-3.565-.23-.369A9.715 9.715 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+            </svg>
+            Fale com um Especialista
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+    SERVIÇOS
+  ===================================================== -->
+  <section class="servicos section" id="servicos">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <div class="eyebrow">O que oferecemos</div>
+        <h2 class="titulo-secao">Seguros para cada momento da sua vida</h2>
+        <p class="desc-secao">Cobertura completa para proteger você, sua família e seus bens.</p>
+      </div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <svg class="card-icone" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+          </svg>
+          <h3>Seguro Auto</h3>
+          <p>Proteção completa para você e seu veículo.</p>
+        </div>
+
+        <div class="card">
+          <svg class="card-icone" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75"/>
+          </svg>
+          <h3>Seguro Residencial</h3>
+          <p>Tranquilidade e segurança para o seu lar.</p>
+        </div>
+
+        <div class="card">
+          <svg class="card-icone" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+          </svg>
+          <h3>Seguro Vida</h3>
+          <p>Cuidado e amparo para o que mais importa.</p>
+        </div>
+
+        <div class="card">
+          <svg class="card-icone" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/>
+          </svg>
+          <h3>Seguro Empresarial</h3>
+          <p>Soluções sob medida para sua empresa.</p>
+        </div>
+
+        <div class="card">
+          <svg class="card-icone" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+          </svg>
+          <h3>Plano de Saúde</h3>
+          <p>Mais saúde e qualidade de vida para você.</p>
+        </div>
+
+        <div class="card">
+          <svg class="card-icone" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/>
+          </svg>
+          <h3>Outros Seguros</h3>
+          <p>Diversas opções para suas necessidades.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+    STATS — data-target define o número final (animado via JS)
+  ===================================================== -->
+  <section class="stats" id="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-num" data-target="20" data-sufixo="+">0</div>
+          <div class="stat-label">Anos de Experiência</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="15000" data-sufixo="+">0</div>
+          <div class="stat-label">Clientes Protegidos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="98" data-sufixo="%">0</div>
+          <div class="stat-label">Taxa de Satisfação</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" data-target="30" data-sufixo="+">0</div>
+          <div class="stat-label">Seguradoras Parceiras</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+    POR QUE ESCOLHER
+  ===================================================== -->
+  <section class="por-que section" id="por-que">
+    <div class="container">
+      <div class="cabecalho-secao">
+        <div class="eyebrow">Diferenciais</div>
+        <h2 class="titulo-secao">Por que escolher a Confiança?</h2>
+        <p class="desc-secao">Mais de duas décadas cuidando do que mais importa para nossos clientes.</p>
+      </div>
+      <div class="por-que-grid">
+        <div class="por-que-item">
+          <div class="por-que-num">01</div>
+          <h4>Atendimento Personalizado</h4>
+          <p>Cada cliente é único. Analisamos seu perfil para oferecer a melhor cobertura com o melhor custo-benefício.</p>
+        </div>
+        <div class="por-que-item">
+          <div class="por-que-num">02</div>
+          <h4>+20 Anos de Mercado</h4>
+          <p>Décadas de experiência garantindo tranquilidade e segurança para milhares de famílias e empresas.</p>
+        </div>
+        <div class="por-que-item">
+          <div class="por-que-num">03</div>
+          <h4>Parceiros Confiáveis</h4>
+          <p>Trabalhamos com as maiores seguradoras do Brasil para garantir o melhor produto para você.</p>
+        </div>
+        <div class="por-que-item">
+          <div class="por-que-num">04</div>
+          <h4>Suporte 24 Horas</h4>
+          <p>Nossa equipe está disponível a qualquer hora para ajudar você quando mais precisar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+    CTA
+  ===================================================== -->
+  <section class="cta" id="cotacao">
+    <h2>Faça sua cotação agora mesmo</h2>
+    <p>Rápido, gratuito e sem compromisso. Encontre o seguro ideal para você.</p>
+    <a href="https://wa.me/556499809208" class="btn-branco" target="_blank" rel="noopener">
+      Solicitar Cotação Grátis &nbsp;→
+    </a>
+  </section>
+
+  <!-- =====================================================
+    FOOTER
+    Logo dentro de .footer-logo-box (caixa branca) pois o
+    fundo escuro impede o truque do mix-blend-mode.
+  ===================================================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+
+        <div>
+          <!--
+            Caixa branca arredondada para o logo no footer.
+            Necessária porque o fundo escuro (#111118) tornaria
+            o logo invisível sem um fundo claro por baixo.
+          -->
+          <div class="footer-logo-box">
+            <img src="confiança logo (1).png" alt="Confiança Corretora de Seguros" />
+          </div>
+          <p class="footer-desc">
+            Há mais de 20 anos protegendo o que mais importa
+            para você, sua família e seu patrimônio.
+          </p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="LinkedIn">IN</a>
+            <a href="#" aria-label="WhatsApp">WA</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Seguros</h5>
+          <ul>
+            <li><a href="#">Seguro Auto</a></li>
+            <li><a href="#">Seguro Residencial</a></li>
+            <li><a href="#">Seguro Vida</a></li>
+            <li><a href="#">Seguro Empresarial</a></li>
+            <li><a href="#">Plano de Saúde</a></li>
+            <li><a href="#">Outros Seguros</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Empresa</h5>
+          <ul>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Serviços</a></li>
+            <li><a href="#">Parceiros</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Trabalhe Conosco</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Contato</h5>
+          <ul>
+            <li><a href="tel:+556499809208">(64) 9980-9208</a></li>
+            <li><a href="mailto:contato@confiancaseguros.com.br">contato@confiancaseguros.com.br</a></li>
+            <li><a href="#">Dúvidas Frequentes</a></li>
+            <li><a href="#">Área do Cliente</a></li>
+            <li><a href="#">Sinistro Online</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-base">
+        <span>© 2026 Confiança Corretora de Seguros. Todos os direitos reservados.</span>
+        <span>
+          <a href="#">SUSEP</a> &nbsp;·&nbsp;
+          <a href="#">Privacidade</a> &nbsp;·&nbsp;
+          <a href="#">Termos de Uso</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+    BOTÃO FLUTUANTE WHATSAPP
+  ===================================================== -->
+  <a
+    href="https://wa.me/556499809208"
+    class="wpp-float"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Falar pelo WhatsApp"
+  >
+    <svg fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.553 4.118 1.522 5.852L.057 23.75a.75.75 0 00.914.914l5.898-1.465A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.705 9.705 0 01-4.937-1.344l-.354-.211-3.664.911.926-3.565-.23-.369A9.715 9.715 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+    </svg>
+    <span>Falar pelo WhatsApp</span>
+  </a>
+
+  <!-- =====================================================
+    JAVASCRIPT
+  ===================================================== -->
+  <script>
+    // ─── 1. Navbar: sombra ao fazer scroll ───────────────
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // ─── 2. Menu mobile: hamburger ────────────────────────
+    const toggle  = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    toggle.addEventListener('click', () => {
+      navMenu.classList.toggle('aberto');
+      toggle.classList.toggle('open');
+    });
+    // Fecha ao clicar em qualquer link do menu
+    navMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navMenu.classList.remove('aberto');
+        toggle.classList.remove('open');
+      });
+    });
+
+    // ─── 3. Animações de scroll (IntersectionObserver) ────
+    // Observa .card e .por-que-item; quando entram na tela,
+    // adiciona .visivel (que ativa a transição de CSS)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visivel'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.card, .por-que-item').forEach(el => observer.observe(el));
+
+    // ─── 4. Contador de números animado ──────────────────
+    // data-target = valor final | data-sufixo = "+", "%" etc.
+    function animarContador(el) {
+      const alvo    = parseInt(el.dataset.target);
+      const sufixo  = el.dataset.sufixo || '';
+      const duracao = 1500; // ms
+      const inicio  = performance.now();
+
+      function tick(agora) {
+        const t = Math.min((agora - inicio) / duracao, 1);
+        const ease = 1 - Math.pow(1 - t, 4); // easeOutQuart
+        el.textContent = Math.round(ease * alvo).toLocaleString('pt-BR') + sufixo;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // Dispara quando a seção stats fica visível
+    const statsObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.stat-num[data-target]').forEach(animarContador);
+          statsObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+
+    const statsEl = document.getElementById('stats');
+    if (statsEl) statsObs.observe(statsEl);
+  </script>
+
+</body>
+</html>
